@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://dubbo.apache.org/schema/dubbo
+       http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="02-provider-zk"  />
+
+    <!--注册服务的真正提供者-->
+    <bean id="someService" class="com.bjpower.service.SomeServiceImpl"/>
+
+    <!--连接zk注册中心(单机zk)，准备提供服务-->
+    <dubbo:registry address="zookeeper://172.19.163.95:2181"/>
+    <!--<dubbo:registry protocol="zookeeper" address="osZK:2181"/>-->
+
+    <!--连接zk注册中心(zk集群)，准备提供服务-->
+    <!-- <dubbo:registry address="zookeeper://osZK1:2181?backup=osZK2:2181,osZK3:2181"/> -->
+    <!--<dubbo:registry protocol="zookeeper" address="osZK1:2181,osZK2:2181,osZK3:2181"/>-->
+
+
+
+    <!--暴露服务：将服务注册到注册中心-->
+    <dubbo:service interface="com.bjpower.ISomeService"
+                   ref="someService"/>
+    
+
+</beans>
